@@ -1,4 +1,4 @@
-#todo add collison to pattles, add collison for scoring, and add controls for the second pattle
+#todo show scoring
 import pygame
 
 pygame.init()
@@ -9,8 +9,8 @@ HEIGHT = 480
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 IsOpen = True
 cir = [185, 135, 15, 15]
-sqr1 = [75, 240, 10, 50]
-sqr2 = [565, 240, 10, 50]
+sqr1 = [75, 240, 10, 60]
+sqr2 = [565, 240, 10, 60]
 
 FPS = 200
 
@@ -53,16 +53,27 @@ def Updatesqr1():
         sqr1[1] += 1
     if sqr1down:
         sqr1[1] -= 1
+    if sqr1[1] > HEIGHT - 50:
+        sqr1[1] = HEIGHT - 50
+    if sqr1[1] < 0:
+        sqr1[1] = 0
 
-def Updatesqr2(): #remember to call this function later
+def Updatesqr2():
     global sqr2up, sqr2down
     if sqr2up:
-        sqr2[1] += 1
-    if sqr1down:
-        sqr2[1] -= 1
+        sqr2[1] -= .8
+    if sqr2down:
+        sqr2[1] += .8
+    if cir[1] < sqr2[1] + 10:
+        sqr2up = True
+        sqr2down = False
+    else:
+        sqr2up = False
+        sqr2down = True
 
 def UpdateCircle():
     global up, down, left, right
+
     if right:
         cir[0] += 1
     elif left:
@@ -85,13 +96,62 @@ def UpdateCircle():
         up = False
         down = True
 
-    """if cir[0] == sqr2[0]: # this condition doesn't work right
+    if cir[0] + cir[3] > sqr2[0]:
+        if sqr2[1] + sqr2[3] >= cir[1] > sqr2[1]:
+            right = False
+            left = True
+
+        if sqr2down == True:
+            up = False
+            right = False
+            left = True
+            down = True
+
+        if sqr2up == True:
+            up = True
+            right = False
+            left = True
+            down = False
+
+    if cir[0] - cir[3] - sqr1[2] < sqr1[0]:
+        if sqr1[1] + sqr1[3] >= cir[1] > sqr1[1]:
+            right = True
+            left = False
+
+        if sqr1down == True:
+            up = False
+            right = True
+            left = False
+            down = True
+
+        if sqr1up == True:
+            up = True
+            right = True
+            left = False
+            down = False
+
+
+def scoring():
+    global left, right, down, up
+    if cir[0] <= 65:
+        cir[0] = WIDTH // 2
+        cir[1] = HEIGHT // 2
         right = False
         left = True
-        """
+        up = False
+        down = False
+
+    if cir[0] >= WIDTH - 65:
+        cir[0] = WIDTH // 2
+        cir[1] = HEIGHT // 2
+        right = True
+        left = False
+        up = False
+        down = False
 # to render stuff
 def Render():
     window.fill((0, 0, 0))
+
     pygame.draw.rect(window, (255, 255, 255), pygame.Rect(sqr1))
     pygame.draw.rect(window, (255, 255, 255), pygame.Rect(sqr2))
     pygame.draw.circle(window, (255, 255, 255), [cir[0], cir[1]], cir[3])
@@ -104,6 +164,6 @@ while IsOpen:
     UpdateCircle()
     Render()
     Updatesqr1()
-    #remember to call UpdateSqr2
-
+    Updatesqr2()
+    scoring()
 pygame.quit()
