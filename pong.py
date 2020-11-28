@@ -3,6 +3,7 @@ import pygame
 
 pygame.init()
 
+# global variables
 WIDTH = 640
 HEIGHT = 480
 
@@ -31,6 +32,7 @@ def Events():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             IsOpen = False
+
         # control the paddles
         if event.type == pygame.QUIT:
             IsOpen = False
@@ -46,7 +48,7 @@ def Events():
             if event.key == pygame.K_DOWN:
                 sqr1down = True
 
-# where you control the ball
+# affects the paddle on the left
 def Updatesqr1():
     global sqr1up, sqr1down
     if sqr1up:
@@ -58,6 +60,7 @@ def Updatesqr1():
     if sqr1[1] < 0:
         sqr1[1] = 0
 
+# affects the paddle on the right
 def Updatesqr2():
     global sqr2up, sqr2down
     if sqr2up:
@@ -71,6 +74,7 @@ def Updatesqr2():
         sqr2up = False
         sqr2down = True
 
+# effects the ball
 def UpdateCircle():
     global up, down, left, right
 
@@ -101,36 +105,36 @@ def UpdateCircle():
             right = False
             left = True
 
-        if sqr2down == True:
-            up = False
-            right = False
-            left = True
-            down = True
+            if sqr2down == True:
+                up = False
+                right = False
+                left = True
+                down = True
 
-        if sqr2up == True:
-            up = True
-            right = False
-            left = True
-            down = False
+            if sqr2up == True:
+                up = True
+                right = False
+                left = True
+                down = False
 
     if cir[0] - cir[3] - sqr1[2] < sqr1[0]:
         if sqr1[1] + sqr1[3] >= cir[1] > sqr1[1]:
             right = True
             left = False
 
-        if sqr1down == True:
-            up = False
-            right = True
-            left = False
-            down = True
+            if sqr1down == True:
+                up = False
+                right = True
+                left = False
+                down = True
 
-        if sqr1up == True:
-            up = True
-            right = True
-            left = False
-            down = False
+            if sqr1up == True:
+                up = True
+                right = True
+                left = False
+                down = False
 
-
+# Resets the ball after scoring
 def scoring():
     global left, right, down, up
     if cir[0] <= 65:
@@ -148,6 +152,7 @@ def scoring():
         left = False
         up = False
         down = False
+
 # to render stuff
 def Render():
     window.fill((0, 0, 0))
@@ -166,4 +171,5 @@ while IsOpen:
     Updatesqr1()
     Updatesqr2()
     scoring()
+
 pygame.quit()
