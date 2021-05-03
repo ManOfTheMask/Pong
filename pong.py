@@ -1,4 +1,3 @@
-#todo show scoring
 import pygame
 
 pygame.init()
@@ -12,6 +11,11 @@ IsOpen = True
 cir = [185, 135, 15, 15]
 sqr1 = [75, 240, 10, 60]
 sqr2 = [565, 240, 10, 60]
+
+font = pygame.font.Font("ARCADECLASSIC.TTF", 100)
+
+ScoreOne = "0"
+ScoreTwo = "0"
 
 FPS = 200
 
@@ -136,7 +140,7 @@ def UpdateCircle():
 
 # Resets the ball after scoring
 def scoring():
-    global left, right, down, up
+    global left, right, down, up, ScoreOne, ScoreTwo
     if cir[0] <= 65:
         cir[0] = WIDTH // 2
         cir[1] = HEIGHT // 2
@@ -144,6 +148,9 @@ def scoring():
         left = True
         up = False
         down = False
+        ScoreOne = int(ScoreOne)
+        ScoreOne += 1
+        ScoreOne = str(ScoreOne)
 
     if cir[0] >= WIDTH - 65:
         cir[0] = WIDTH // 2
@@ -152,6 +159,9 @@ def scoring():
         left = False
         up = False
         down = False
+        ScoreTwo = int(ScoreTwo)
+        ScoreTwo += 1
+        ScoreTwo = str(ScoreTwo)
 
 # to render stuff
 def Render():
@@ -160,6 +170,8 @@ def Render():
     pygame.draw.rect(window, (255, 255, 255), pygame.Rect(sqr1))
     pygame.draw.rect(window, (255, 255, 255), pygame.Rect(sqr2))
     pygame.draw.circle(window, (255, 255, 255), [cir[0], cir[1]], cir[3])
+    window.blit(font.render(ScoreOne, False, (0, 0, 255)), (150, 10))
+    window.blit(font.render(ScoreTwo, False, (0, 0, 255)), (350, 10))
     pygame.display.update()
 
 # to keep stuff running
