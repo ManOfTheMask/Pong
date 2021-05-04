@@ -78,7 +78,7 @@ def Updatesqr2():
         sqr2up = False
         sqr2down = True
 
-# effects the ball
+# effects the ball's movement
 def UpdateCircle():
     global up, down, left, right
 
@@ -163,18 +163,18 @@ def scoring():
         ScoreTwo += 1
         ScoreTwo = str(ScoreTwo)
 
-# to render stuff
+# renders everything from the ball and the pattles to the score and the window itself
 def Render():
     window.fill((0, 0, 0))
 
     pygame.draw.rect(window, (255, 255, 255), pygame.Rect(sqr1))
     pygame.draw.rect(window, (255, 255, 255), pygame.Rect(sqr2))
     pygame.draw.circle(window, (255, 255, 255), [cir[0], cir[1]], cir[3])
-    window.blit(font.render(ScoreOne, False, (0, 0, 255)), (150, 10))
-    window.blit(font.render(ScoreTwo, False, (0, 0, 255)), (350, 10))
+    window.blit(font.render(ScoreOne, False, (255, 255, 255)), (WIDTH - 550, HEIGHT - 420))
+    window.blit(font.render(ScoreTwo, False, (255, 255, 255)), (WIDTH - 130, HEIGHT - 420))
     pygame.display.update()
 
-# to keep stuff running
+# event loop this to keep stuff running
 while IsOpen:
     clock.tick(FPS)
     Events()
