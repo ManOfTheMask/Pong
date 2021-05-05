@@ -141,6 +141,12 @@ def UpdateCircle():
 # Resets the ball after scoring
 def scoring():
     global left, right, down, up, ScoreOne, ScoreTwo
+
+    #prints the score on the console
+    def printScore(PlayerScore, BotScore):
+        print("The Player's score is " + PlayerScore)
+        print("The bot's score is " + BotScore)
+
     if cir[0] <= 65:
         cir[0] = WIDTH // 2
         cir[1] = HEIGHT // 2
@@ -148,9 +154,10 @@ def scoring():
         left = True
         up = False
         down = False
-        ScoreOne = int(ScoreOne)
-        ScoreOne += 1
-        ScoreOne = str(ScoreOne)
+        ScoreTwo = int(ScoreTwo)
+        ScoreTwo += 1
+        ScoreTwo = str(ScoreTwo)
+        printScore(ScoreOne, ScoreTwo)
 
     if cir[0] >= WIDTH - 65:
         cir[0] = WIDTH // 2
@@ -159,9 +166,11 @@ def scoring():
         left = False
         up = False
         down = False
-        ScoreTwo = int(ScoreTwo)
-        ScoreTwo += 1
-        ScoreTwo = str(ScoreTwo)
+        ScoreOne = int(ScoreOne)
+        ScoreOne += 1
+        ScoreOne = str(ScoreOne)
+        printScore(ScoreOne, ScoreTwo)
+
 
 # renders everything from the ball and the pattles to the score and the window itself
 def Render():
@@ -183,5 +192,4 @@ while IsOpen:
     Updatesqr1()
     Updatesqr2()
     scoring()
-
 pygame.quit()
